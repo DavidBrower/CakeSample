@@ -88,7 +88,7 @@ Task("Version")
         {
             GitVersion(new GitVersionSettings
             {
-                OutputType = GitVersionOutput.BuildServer, 
+                OutputType = GitVersionOutput.BuildServer, //makes the version the build id or part of the metadata on the CI server
                 UpdateAssemblyInfo = true
             });
         }
