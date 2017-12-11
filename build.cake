@@ -6,6 +6,7 @@
 #tool nuget:?package=GitVersion.CommandLine
 #tool nuget:?package=OctopusTools&version=4.27.3
 
+var projectName = ""; //provide the name of the project
 var target = Argument("Target", "Build");
 var configuration = Argument("Configuration", "Release");
 var codeCoverageReportPath = Argument<FilePath>("CodeCoverageReportPath", "coverage.zip");
@@ -61,8 +62,8 @@ Task("Test")
             }),
         Paths.CodeCoverageResultFile, 
         new OpenCoverSettings()
-            .WithFilter("+[Linker.*]*")
-            .WithFilter("-[Linker.*Tests*]*")
+            .WithFilter($"+[{Linker}.*]*")
+            .WithFilter($"-[{Linker}.*Tests*]*")
             );
     });
     
@@ -82,9 +83,7 @@ Task("Version")
     .Does(() => 
     {
         var version = GitVersion();
-        Information($"Calculated semantic version {version.SemVer}");
         packageVersion = version.NuGetVersion;
-        Information($"Corresponding package version {packageVersion}");
         if(!BuildSystem.IsLocalBuild)
         {
             GitVersion(new GitVersionSettings
@@ -107,8 +106,9 @@ Task("Deploy-OctopusDeploy")
                 {
                     ReplaceExisting = true
                 });
+
         //create release
-        OctoCreateRelease("Linker", 
+        OctoCreateRelease(projectName, 
         new CreateReleaseSettings
         {
             Server = Urls.OctopusServerUrl, 
