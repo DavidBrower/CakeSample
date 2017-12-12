@@ -62,8 +62,8 @@ Task("Test")
             }),
         Paths.CodeCoverageResultFile, 
         new OpenCoverSettings()
-            .WithFilter($"+[{Linker}.*]*")
-            .WithFilter($"-[{Linker}.*Tests*]*")
+            .WithFilter($"+[{projectName}.*]*")
+            .WithFilter($"-[{projectName}.*Tests*]*")
             );
     });
     
