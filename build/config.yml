@@ -1,2 +1,2 @@
-TestProjects:    
-    - ./Ofgem.AccreditationWizard/ServiceLayerTest/bin/{configuration}/ServiceLayerTest.dll
+TestProjects:
+    - ./path/to/bin/{configuration}/Test.dll
